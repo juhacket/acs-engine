@@ -311,18 +311,18 @@ function ensureEtcd() {
 }
 
 function ensureEtcdDataDir() {
-    mount | grep /dev/sdc1 | grep /var/lib/etcddisk
+    mount | grep /dev/sdf1 | grep /var/lib/etcddisk
     if [ "$?" = "0" ]
     then
         echo "Etcd is running with data dir at: /var/lib/etcddisk"
         return
     else
-        echo "/var/lib/etcddisk was not found at /dev/sdc1. Trying to mount all devices."
+        echo "/var/lib/etcddisk was not found at /dev/sdf1. Trying to mount all devices."
         for i in {1..60}; do
-            sudo mount -a && mount | grep /dev/sdc1 | grep /var/lib/etcddisk;
+            sudo mount -a && mount | grep /dev/sdf1 | grep /var/lib/etcddisk;
             if [ "$?" = "0" ]
             then
-                echo "/var/lib/etcddisk mounted at: /dev/sdc1"
+                echo "/var/lib/etcddisk mounted at: /dev/sdf1"
                 return
             fi
             sleep 5
