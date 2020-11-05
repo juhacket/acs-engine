@@ -259,7 +259,7 @@ write_files:
         exit 0
     fi
     # fill /etc/fstab
-    grep "/dev/sdc1" /etc/fstab
+    grep "/dev/sdf1" /etc/fstab
     if [ $? -ne 0 ]
     then
         echo "$PARTITION       $MOUNTPOINT       auto    defaults,nofail       0       2" >> /etc/fstab
