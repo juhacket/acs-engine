@@ -400,19 +400,23 @@ sed -i "13i\echo 2dd1ce17-079e-403c-b352-a1921ee207ee > /sys/bus/vmbus/drivers/h
 # If APISERVER_PRIVATE_KEY is empty, then we are not on the master
 echo "Install complete successfully"
 
-if [ -f /var/run/reboot-required ]; then
-    REBOOTREQUIRED=true
-else
-    REBOOTREQUIRED=false
-fi
+# Looks like there is a wired racing happen between this script and left work, basically, if we auto shutdown here
+# it have a high chance that the FS get rude and then root for some reason move to sdc and then broken whole stuff. 
+# as this is a depercated OS, we don't want to put too much effort so a simplest workaround is restart the master node later
 
-if $REBOOTREQUIRED; then
-  if [[ ! -z "${APISERVER_PRIVATE_KEY}" ]]; then
-    # wait 1 minute to restart master
-    echo 'reboot required, rebooting master in 1 minute'
-    /bin/bash -c "shutdown -r 1 &"
-  else
-    echo 'reboot required, rebooting agent in 1 minute'
-    shutdown -r now
-  fi
-fi
+# if [ -f /var/run/reboot-required ]; then
+#     REBOOTREQUIRED=true
+# else
+#     REBOOTREQUIRED=false
+# fi
+
+# if $REBOOTREQUIRED; then
+#   if [[ ! -z "${APISERVER_PRIVATE_KEY}" ]]; then
+#     # wait 1 minute to restart master
+#     echo 'reboot required, rebooting master in 1 minute'
+#     /bin/bash -c "shutdown -r 1 &"
+#   else
+#     echo 'reboot required, rebooting agent in 1 minute'
+#     shutdown -r now
+#   fi
+# fi
